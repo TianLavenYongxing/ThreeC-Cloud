@@ -1,0 +1,28 @@
+package com.threec.auth;
+
+import com.threec.auth.security.JwtService;
+import com.threec.auth.security.auth.AuthenticationService;
+import com.threec.auth.security.auth.AuthenticationUser;
+import com.threec.auth.utils.JWTValidationResult;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.annotation.Resource;
+
+@SpringBootTest
+public class AuthenticationServiceTest {
+
+    @Resource
+    JwtService jwtService;
+    @Test
+    public void test1(){
+        AuthenticationUser authenticationUser = new AuthenticationUser();
+        authenticationUser.setUsername("username");
+        String jwt = jwtService.generateToken(authenticationUser);
+        System.out.println(jwt);
+        JWTValidationResult jwtResult = jwtService.validateToken(jwt);
+        System.out.println(jwtResult);
+    }
+}

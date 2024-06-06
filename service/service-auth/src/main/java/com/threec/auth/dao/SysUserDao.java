@@ -1,0 +1,18 @@
+package com.threec.auth.dao;
+
+import com.threec.auth.entity.SysUserEntity;
+import com.threec.common.mybatis.dao.BaseDao;
+import org.apache.ibatis.annotations.Mapper;
+
+/**
+ * 系统用户表
+ *
+ * @author Laven tianlavenyongxing@gmail.com
+ * @since  2024-06-01
+ */
+@Mapper
+public interface SysUserDao extends BaseDao<SysUserEntity> {
+
+    SysUserEntity findByUsername(String username);
+	
+}
