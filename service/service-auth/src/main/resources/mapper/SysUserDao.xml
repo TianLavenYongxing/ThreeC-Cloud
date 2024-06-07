@@ -28,12 +28,23 @@
     </resultMap>
 
     <select id="findByUsername" resultMap="sysUserMap">
-        SELECT * FROM sys_user WHERE username = #{userName}
+        SELECT u.*, GROUP_CONCAT(r.role SEPARATOR ',') AS roles
+        FROM sys_user u
+        LEFT JOIN sys_user_role ur ON u.id = ur.user_id
+        LEFT JOIN sys_role r ON ur.role_id = r.id
+        WHERE u.username = #{username}
+        GROUP BY u.id
+        </select>
+
+    <select id="authByUsername" resultType="com.threec.auth.security.dto.AuthUrlMethodDTO">
+        SELECT up.url,up.http_method as method
+        FROM sys_user u
+        JOIN sys_user_role ur ON u.id = ur.user_id
+        JOIN sys_role_perm rp ON ur.role_id = rp.role_id
+        JOIN sys_url_perm up ON rp.perm_id = up.perm_id
+        WHERE u.username =  #{username} and (up.http_method = #{method} or up.http_method = "ALL")
     </select>
 
-    <select id="findRolesByUserId" resultType="string">
-        SELECT r.role FROM sys_role r INNER JOIN sys_user_role ur ON r.id = ur.role_id WHERE ur.user_id = #{userId}
-    </select>
 
 
 </mapper>
