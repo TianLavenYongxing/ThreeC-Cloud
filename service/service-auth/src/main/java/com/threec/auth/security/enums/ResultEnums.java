@@ -1,4 +1,4 @@
-package com.threec.auth.enums;
+package com.threec.auth.security.enums;
 
 public enum ResultEnums {
     ACCOUNT_LOCKED(70001, "账号锁定"),
