@@ -2,6 +2,7 @@ package com.threec.auth.security;
 
 import com.threec.auth.dao.SysUserDao;
 import com.threec.auth.entity.SysUserEntity;
+import com.threec.auth.security.enums.ResultEnums;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +31,7 @@ public class ApplicationConfig {
         return username -> {
             SysUserEntity user = sysUserDao.findByUsername(username);
             if (ObjectUtils.isEmpty(user)) {
-                throw new UsernameNotFoundException("User not found");
+                throw new UsernameNotFoundException(ResultEnums.ERROR_USERNAME_OR_PASSWORD.getMsg());
             }
             return new User(user.getUsername(), user.getPassword(), user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
         };
@@ -50,7 +51,7 @@ public class ApplicationConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(11);
+        return new BCryptPasswordEncoder(10);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.threec.auth.security;
 
-import com.threec.auth.enums.ResultEnums;
+import com.threec.auth.security.enums.ResultEnums;
 import com.threec.auth.utils.JWTValidationResult;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
