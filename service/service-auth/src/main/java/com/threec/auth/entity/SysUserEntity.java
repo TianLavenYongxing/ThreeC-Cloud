@@ -66,10 +66,6 @@ public class SysUserEntity extends BaseEntity {
      * 帐户未锁定(0锁定，1未锁定)
      */
 	private Boolean accountNonLocked;
-    /**
-     * 用户类型（0管理员，1普通用户）
-     */
-	private Boolean userType;
 
     private Collection<String> roles;
 }

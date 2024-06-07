@@ -56,19 +56,16 @@ public class SysUserDTO extends BashDTO implements UserDetails {
 	private String avatar;
 
 	@ApiModelProperty(value = "启用（0未启用，1启用）")
-	private Integer enabled;
+	private Boolean enabled;
 
 	@ApiModelProperty(value = "帐户未过期（0过期，1未过期）")
-	private Integer accountNonExpired;
+	private Boolean accountNonExpired;
 
 	@ApiModelProperty(value = "凭证未过期(0过期，1未过期)")
-	private Integer credentialsNonExpired;
+	private Boolean credentialsNonExpired;
 
 	@ApiModelProperty(value = "帐户未锁定(0锁定，1未锁定)")
-	private Integer accountNonLocked;
-
-	@ApiModelProperty(value = "用户类型（0管理员，1普通用户）")
-	private Integer userType;
+	private Boolean accountNonLocked;
 
 	@ApiModelProperty(value = "用户角色")
 	private List<String> roles;
@@ -85,21 +82,21 @@ public class SysUserDTO extends BashDTO implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return this.accountNonExpired != 0;
+		return this.accountNonExpired;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return this.accountNonLocked != 0;
+		return this.accountNonLocked;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return this.credentialsNonExpired !=0;
+		return this.credentialsNonExpired;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return this.enabled != 0;
+		return this.enabled;
 	}
 }

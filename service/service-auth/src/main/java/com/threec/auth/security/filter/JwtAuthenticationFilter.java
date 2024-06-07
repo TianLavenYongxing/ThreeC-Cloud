@@ -1,6 +1,7 @@
 package com.threec.auth.security.filter;
 
-import com.threec.auth.utils.JWTValidationResult;
+import com.threec.auth.security.constant.AuthConstant;
+import com.threec.auth.security.dto.JWTValidationResult;
 import com.threec.auth.security.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -29,17 +30,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().contains("/api/auth")) {
+        if (request.getServletPath().contains(AuthConstant.API_AUTH)) {
             filterChain.doFilter(request, response);
             return;
         }
-        final String authHeader = request.getHeader("Authorization");
+        final String authHeader = request.getHeader(AuthConstant.AUTHORIZATION);
         final String jwt;
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith(AuthConstant.BEARER)) {
             filterChain.doFilter(request, response);
             return;
         }
-        jwt = authHeader.substring(7);
+        jwt = authHeader.substring(AuthConstant.BEARER.length());
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             JWTValidationResult jwtResult = jwtService.validateToken(jwt);
             if (!jwtResult.isValid()) {

@@ -1,4 +1,4 @@
-package com.threec.auth.utils;
+package com.threec.auth.security.dto;
 
 import io.jsonwebtoken.Claims;
 import lombok.Data;
@@ -15,11 +15,6 @@ public class JWTValidationResult {
         this.claims = claims;
     }
 
-    // Getters
-    public boolean isValid() {
-        return isValid;
-    }
-
     // Static factory method for success
     public static JWTValidationResult success(Claims claims) {
         return new JWTValidationResult(true, null, claims);
@@ -28,5 +23,10 @@ public class JWTValidationResult {
     // Static factory method for failure
     public static JWTValidationResult failure(String errorMessage) {
         return new JWTValidationResult(false, errorMessage, null);
+    }
+
+    // Getters
+    public boolean isValid() {
+        return isValid;
     }
 }

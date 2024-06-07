@@ -2,7 +2,8 @@ package com.threec.auth;
 
 import com.threec.auth.security.JwtService;
 import com.threec.auth.security.auth.AuthenticationUser;
-import com.threec.auth.utils.JWTValidationResult;
+import com.threec.auth.security.constant.AuthConstant;
+import com.threec.auth.security.dto.JWTValidationResult;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -21,5 +22,10 @@ public class AuthenticationServiceTest {
         System.out.println(jwt);
         JWTValidationResult jwtResult = jwtService.validateToken(jwt);
         System.out.println(jwtResult);
+    }
+
+    @Test
+    public void test2(){
+        System.out.println(AuthConstant.BEARER.length());
     }
 }

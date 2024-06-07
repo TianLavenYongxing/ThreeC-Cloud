@@ -64,7 +64,7 @@ public class AuthenticationUser implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.credentialsNonExpired !=0;
+        return this.credentialsNonExpired != 0;
     }
 
     @Override

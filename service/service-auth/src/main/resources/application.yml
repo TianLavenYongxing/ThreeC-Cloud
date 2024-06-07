@@ -29,3 +29,5 @@ application:
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
+    b-crypt-password-encoder:
+      strength: 11

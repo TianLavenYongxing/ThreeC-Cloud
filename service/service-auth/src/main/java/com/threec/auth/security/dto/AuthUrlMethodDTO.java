@@ -6,4 +6,5 @@ import lombok.Data;
 public class AuthUrlMethodDTO {
     private String url;
     private String method;
+    private String perm;
 }

@@ -4,6 +4,7 @@ import com.threec.auth.dao.SysUserDao;
 import com.threec.auth.entity.SysUserEntity;
 import com.threec.auth.security.enums.ResultEnums;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,8 +24,9 @@ import java.util.stream.Collectors;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
-
     private final SysUserDao sysUserDao;
+    @Value("${application.security.b-crypt-password-encoder.strength}")
+    private int strength;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -36,6 +38,7 @@ public class ApplicationConfig {
             return new User(user.getUsername(), user.getPassword(), user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
         };
     }
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -51,7 +54,7 @@ public class ApplicationConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
+        return new BCryptPasswordEncoder(strength);
     }
 
 }

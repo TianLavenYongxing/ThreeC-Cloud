@@ -5,6 +5,7 @@ import com.threec.auth.dao.SysUserDao;
 import com.threec.auth.dto.SysUserDTO;
 import com.threec.auth.entity.SysUserEntity;
 import com.threec.auth.security.JwtService;
+import com.threec.auth.security.constant.AuthConstant;
 import com.threec.common.mybatis.utils.ConvertUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -60,10 +61,10 @@ public class AuthenticationService {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
         final String username;
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith(AuthConstant.BEARER)) {
             return;
         }
-        refreshToken = authHeader.substring(7);
+        refreshToken = authHeader.substring(AuthConstant.BEARER.length());
         username = jwtService.extractUsername(refreshToken);
         if (username != null) {
             SysUserEntity userEntity = sysUserDao.findByUsername(username);
