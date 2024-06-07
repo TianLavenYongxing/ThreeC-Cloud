@@ -1,8 +1,12 @@
 package com.threec.auth.security;
 
+import com.alibaba.fastjson2.JSON;
 import com.threec.auth.dao.SysUserDao;
 import com.threec.auth.entity.SysUserEntity;
 import com.threec.auth.security.enums.ResultEnums;
+import com.threec.common.mybatis.utils.Result;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +21,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.util.ObjectUtils;
 
 import java.util.stream.Collectors;
@@ -57,4 +64,32 @@ public class ApplicationConfig {
         return new BCryptPasswordEncoder(strength);
     }
 
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return (request, response, authException) -> {
+            // todo 逻辑 ThreeCLoginFailureHandler一样实现 authException逻辑
+            response.setContentType("application/json;charset=UTF-8");
+            ServletOutputStream outputStream = response.getOutputStream();
+            Result<Object> localizedMessage = new Result<>().error(HttpServletResponse.SC_UNAUTHORIZED, ResultEnums.AUTHENTICATION_FAILED.getMsg());
+            outputStream.write(JSON.toJSONString(localizedMessage).getBytes());
+            outputStream.flush();
+            outputStream.close();
+        };
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return (request, response, accessDeniedException) -> {
+            // todo 逻辑 ThreeCLoginFailureHandler一样实现 accessDeniedException逻辑
+            response.setContentType("application/json;charset=UTF-8");
+            ServletOutputStream outputStream = response.getOutputStream();
+            Result<Object> localizedMessage = new Result<>().error(HttpServletResponse.SC_FORBIDDEN, ResultEnums.ACCESS_DENIED.getMsg());
+            outputStream.write(JSON.toJSONString(localizedMessage).getBytes());
+            outputStream.flush();
+            outputStream.close();
+        };
+    }
+
+
 }
+
