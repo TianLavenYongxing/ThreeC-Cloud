@@ -1,13 +1,10 @@
 package com.threec.auth;
 
 import com.threec.auth.security.JwtService;
-import com.threec.auth.security.auth.AuthenticationService;
 import com.threec.auth.security.auth.AuthenticationUser;
 import com.threec.auth.utils.JWTValidationResult;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 
