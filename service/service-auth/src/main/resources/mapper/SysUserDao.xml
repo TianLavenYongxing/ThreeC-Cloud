@@ -24,7 +24,7 @@
         <result property="updateTime" column="update_time"/>
         <result property="delBy" column="del_by"/>
         <result property="delTime" column="del_time"/>
-        <collection property="roles" ofType="string" column="id" select="findRolesByUserId"/>
+        <collection property="roles" javaType="java.util.List" column="roles"/>
     </resultMap>
 
     <select id="findByUsername" resultMap="sysUserMap">

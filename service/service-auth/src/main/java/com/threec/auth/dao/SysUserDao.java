@@ -17,7 +17,7 @@ import java.util.List;
 @Mapper
 public interface SysUserDao extends BaseDao<SysUserEntity> {
 
-    SysUserEntity findByUsername(String username);
+    SysUserEntity findByUsername(@Param("username")String username);
 
     List<AuthUrlMethodDTO> authByUsername(@Param("username")String username,@Param("method") String method);
 	
