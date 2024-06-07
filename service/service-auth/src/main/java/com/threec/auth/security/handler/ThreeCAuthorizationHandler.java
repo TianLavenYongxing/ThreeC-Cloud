@@ -34,11 +34,7 @@ public class ThreeCAuthorizationHandler implements AuthorizationManager<RequestA
         String url = request.getRequestURI();
         String httpMethod = request.getMethod();
         String username = authentication.get().getName();
-        List<AuthUrlMethodDTO> authUrlMethods = sysUserDao.authByUsername(username, httpMethod);
-        Set<String> perms = authUrlMethods.stream().collect(Collectors.groupingBy(AuthUrlMethodDTO::getPerm)).keySet();
-        if (perms.contains(AuthConstant.ALL_API_PERM)) {
-            return new AuthorizationDecision(true);
-        }
+        List<AuthUrlMethodDTO> authUrlMethods = sysUserDao.authByUsername(username,httpMethod);
         AntPathMatcher antPathMatcher = new AntPathMatcher();
         for (AuthUrlMethodDTO dto : authUrlMethods) {
             boolean match = antPathMatcher.match(dto.getUrl(), url);

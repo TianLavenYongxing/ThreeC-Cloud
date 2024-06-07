@@ -16,7 +16,6 @@
         <result property="accountNonExpired" column="account_non_expired"/>
         <result property="credentialsNonExpired" column="credentials_non_expired"/>
         <result property="accountNonLocked" column="account_non_locked"/>
-        <result property="userType" column="user_type"/>
         <result property="delFlag" column="del_flag"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
@@ -37,11 +36,10 @@
         </select>
 
     <select id="authByUsername" resultType="com.threec.auth.security.dto.AuthUrlMethodDTO">
-        SELECT up.url,up.http_method as method,p.perm
+        SELECT up.url,up.http_method as method
         FROM sys_user u
         JOIN sys_user_role ur ON u.id = ur.user_id
         JOIN sys_role_perm rp ON ur.role_id = rp.role_id
-        JOIN sys_perm p ON rp.perm_id = p.id
         JOIN sys_url_perm up ON rp.perm_id = up.perm_id
         WHERE u.username =  #{username} and (up.http_method = #{method} or up.http_method = "ALL")
     </select>
