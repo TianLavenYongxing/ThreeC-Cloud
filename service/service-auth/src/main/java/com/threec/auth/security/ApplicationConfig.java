@@ -3,8 +3,9 @@ package com.threec.auth.security;
 import com.alibaba.fastjson2.JSON;
 import com.threec.auth.dao.SysUserDao;
 import com.threec.auth.entity.SysUserEntity;
+import com.threec.auth.security.constant.AuthConstant;
 import com.threec.auth.security.enums.ResultEnums;
-import com.threec.common.mybatis.utils.Result;
+import com.threec.common.mybatis.utils.R;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +24,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.util.ObjectUtils;
 
+import java.io.IOException;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -68,10 +70,10 @@ public class ApplicationConfig {
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return (request, response, authException) -> {
             // todo 逻辑 ThreeCLoginFailureHandler一样实现 authException逻辑
-            response.setContentType("application/json;charset=UTF-8");
+            response.setContentType(AuthConstant.CONTENT_TYPE);
             ServletOutputStream outputStream = response.getOutputStream();
-            Result<Object> localizedMessage = new Result<>().error(HttpServletResponse.SC_UNAUTHORIZED, ResultEnums.AUTHENTICATION_FAILED.getMsg());
-            outputStream.write(JSON.toJSONString(localizedMessage).getBytes());
+            R<Object> r = new R<>().error(HttpServletResponse.SC_UNAUTHORIZED, ResultEnums.AUTHENTICATION_FAILED.getMsg());
+            outputStream.write(JSON.toJSONString(r).getBytes());
             outputStream.flush();
             outputStream.close();
         };
@@ -81,12 +83,34 @@ public class ApplicationConfig {
     public AccessDeniedHandler accessDeniedHandler() {
         return (request, response, accessDeniedException) -> {
             // todo 逻辑 ThreeCLoginFailureHandler一样实现 accessDeniedException逻辑
-            response.setContentType("application/json;charset=UTF-8");
+            response.setContentType(AuthConstant.CONTENT_TYPE);
             ServletOutputStream outputStream = response.getOutputStream();
-            Result<Object> localizedMessage = new Result<>().error(HttpServletResponse.SC_FORBIDDEN, ResultEnums.ACCESS_DENIED.getMsg());
-            outputStream.write(JSON.toJSONString(localizedMessage).getBytes());
+            R<Object> r = new R<>().error(HttpServletResponse.SC_FORBIDDEN,ResultEnums.ACCESS_DENIED.getMsg());
+            outputStream.write(JSON.toJSONString(r).getBytes());
             outputStream.flush();
             outputStream.close();
+        };
+    }
+
+    @Bean
+    public LogoutHandler LogoutHandler() {
+        return (request, response, accessDeniedException) -> {
+            String authHeader = request.getHeader(AuthConstant.AUTHORIZATION);
+            if (authHeader == null || !authHeader.startsWith(AuthConstant.BEARER)) {
+                return;
+            }
+            String jwt = authHeader.substring(7);
+            // todo redis中获取jwt 如果不为空那么设置为超期 后保存 最后 SecurityContextHolder.clearContext();
+            response.setContentType(AuthConstant.CONTENT_TYPE);
+            try {
+                ServletOutputStream outputStream = response.getOutputStream();
+                R<Object> r = new R<>().error(HttpServletResponse.SC_OK,ResultEnums.LOGOUT_SUCCESS.getMsg());
+                outputStream.write(JSON.toJSONString(r).getBytes());
+                outputStream.flush();
+                outputStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         };
     }
 

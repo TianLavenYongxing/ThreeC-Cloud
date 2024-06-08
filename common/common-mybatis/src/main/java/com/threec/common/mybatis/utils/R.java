@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 @ApiModel("响应")
-public class Result<T> implements Serializable {
+public class R<T> implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty("编码：200表示成功，其他值表示失败")
     private int code = 200;
@@ -15,15 +15,15 @@ public class Result<T> implements Serializable {
     @ApiModelProperty("响应数据")
     private T data;
 
-    public Result() {
+    public R() {
     }
 
-    public Result<T> ok(T data) {
+    public R<T> ok(T data) {
         this.setData(data);
         return this;
     }
 
-    public Result<T> ok(int code, String msg,T data) {
+    public R<T> ok(int code, String msg,T data) {
         this.setData(data);
         this.code = code;
         this.msg = msg;
@@ -34,13 +34,13 @@ public class Result<T> implements Serializable {
         return this.code == 0;
     }
 
-    public Result<T> error() {
+    public R<T> error() {
         this.code = 500;
         this.msg = MessageUtil.getMessage(this.code);
         return this;
     }
 
-    public Result<T> error(int code) {
+    public R<T> error(int code) {
         this.code = code;
         this.msg = MessageUtil.getMessage(this.code);
         this.msg = MessageUtil.getMessage(this.code);
@@ -48,13 +48,13 @@ public class Result<T> implements Serializable {
         return this;
     }
 
-    public Result<T> error(int code, String msg) {
+    public R<T> error(int code, String msg) {
         this.code = code;
         this.msg = msg;
         return this;
     }
 
-    public Result<T> error(String msg) {
+    public R<T> error(String msg) {
         this.code = 500;
         this.msg = msg;
         return this;

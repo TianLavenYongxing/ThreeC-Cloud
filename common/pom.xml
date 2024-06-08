@@ -18,9 +18,6 @@
     </modules>
 
     <properties>
-        <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
-        <spring-cloud.version>2023.0.1</spring-cloud.version>
-        <spring-boot-starter.version>3.2.5</spring-boot-starter.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <baomidou.mybatis>3.5.5</baomidou.mybatis>
         <swagger.version>3.0.0</swagger.version>
@@ -28,12 +25,9 @@
         <easypoi.base>4.4.0</easypoi.base>
         <joda_time.version>2.10.14</joda_time.version>
         <guava.version>33.1.0-jre</guava.version>
-        <jjwt.version>0.11.5</jjwt.version>
         <mysql.version>8.0.33</mysql.version>
         <druid.version>1.2.9</druid.version>
         <javax_servlet.version>4.0.1</javax_servlet.version>
-        <hutool_all.version>5.8.27</hutool_all.version>
-        <fastjson2.version>2.0.9</fastjson2.version>
         <slf4j_api.version>2.1.0-alpha1</slf4j_api.version>
         <commons.lang.version>3.14.0</commons.lang.version>
     </properties>
