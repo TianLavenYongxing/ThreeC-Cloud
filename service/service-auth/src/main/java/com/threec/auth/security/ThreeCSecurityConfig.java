@@ -25,8 +25,6 @@ import javax.annotation.Resource;
 public class ThreeCSecurityConfig {
     @Resource
     private JwtAuthenticationFilter jwtAuthFilter;
-    @Resource(name = "authenticationProvider")
-    private AuthenticationProvider authenticationProvider;
     @Resource
     private ThreeCAuthorizationHandler threeCAuthorizationHandler;
     @Resource
@@ -43,7 +41,6 @@ public class ThreeCSecurityConfig {
         http.authorizeHttpRequests(authz -> authz.requestMatchers(AuthConstant.WHITE_LIST_URL).permitAll().anyRequest().access(threeCAuthorizationHandler)  //开启授权保护  anyRequest() 对所有请求开启授权保护  access()自定义授权
         );
         http.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // 无状态配置：通过
-        http.authenticationProvider(authenticationProvider);
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling(e -> {
             e.accessDeniedHandler(accessDeniedHandler);

@@ -5,8 +5,8 @@ import com.threec.auth.dao.SysUserDao;
 import com.threec.auth.dto.SysUserDTO;
 import com.threec.auth.entity.SysUserEntity;
 import com.threec.auth.security.JwtService;
-import com.threec.auth.security.SmsAuthenticationToken;
 import com.threec.auth.security.constant.AuthConstant;
+import com.threec.auth.security.token.SmsAuthenticationToken;
 import com.threec.common.mybatis.utils.ConvertUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -44,7 +44,7 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse smsAuthenticate(SmsAuthenticationRequest request) {
-        authenticationManager.authenticate(new SmsAuthenticationToken(request.getPhone(),request.getCode()));
+        authenticationManager.authenticate(new SmsAuthenticationToken(request.getPhone(), request.getCode()));
         SysUserEntity user = sysUserDao.findByPhone(request.getPhone());
         return getAuthenticationResponse(user, ConvertUtils.sourceToTarget(request, SysUserDTO.class));
     }
@@ -73,7 +73,6 @@ public class AuthenticationService {
 
     private AuthenticationResponse getAuthenticationResponse(SysUserEntity user, SysUserDTO request) {
         AuthenticationUser authUser = ConvertUtils.sourceToTarget(user, AuthenticationUser.class);
-
         SysUserDTO userDTO = request;
         String jwtToken = jwtService.generateToken(userDTO);
         String refreshToken = jwtService.generateRefreshToken(userDTO);

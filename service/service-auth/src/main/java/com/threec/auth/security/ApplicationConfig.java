@@ -6,17 +6,17 @@ import com.threec.auth.dao.SysUserDao;
 import com.threec.auth.entity.SysUserEntity;
 import com.threec.auth.security.constant.AuthConstant;
 import com.threec.auth.security.enums.ResultEnums;
+import com.threec.auth.security.provider.SmsAuthenticationProvider;
 import com.threec.common.mybatis.utils.R;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,6 +30,7 @@ import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -39,7 +40,7 @@ public class ApplicationConfig {
     @Value("${application.security.b-crypt-password-encoder.strength}")
     private int strength;
 
-    @Bean(name = "userDetailsService" )
+    @Bean(name = "userDetailsService")
     public UserDetailsService userDetailsService() {
         return username -> {
             SysUserEntity user = sysUserDao.findByUsername(username);
@@ -50,7 +51,18 @@ public class ApplicationConfig {
         };
     }
 
-    @Bean(name = "authenticationProvider" )
+    @Bean(name = "smsUserDetailsService")
+    public UserDetailsService smsUserDetailsService() {
+        return phone -> {
+            SysUserEntity user = sysUserDao.findByPhone(phone);
+            if (ObjectUtils.isEmpty(user)) {
+                throw new UsernameNotFoundException(ResultEnums.ERROR_USERNAME_OR_PASSWORD.getMsg());
+            }
+            return new User(user.getUsername(), user.getPassword(), user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+        };
+    }
+
+    @Bean(name = "authenticationProvider")
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
@@ -58,9 +70,16 @@ public class ApplicationConfig {
         return authProvider;
     }
 
+    @Bean(name = "smsAuthenticationProvider")
+    public AuthenticationProvider smsAuthenticationProvider() {
+        SmsAuthenticationProvider smsAuthProvider = new SmsAuthenticationProvider();
+        smsAuthProvider.setUserDetailsService(smsUserDetailsService());
+        return smsAuthProvider;
+    }
+
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    public AuthenticationManager authenticationManager() {
+        return new ProviderManager(Arrays.asList(smsAuthenticationProvider(), authenticationProvider()));
     }
 
     @Bean
@@ -115,7 +134,6 @@ public class ApplicationConfig {
             }
         };
     }
-
 
 }
 
