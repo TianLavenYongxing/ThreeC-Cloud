@@ -1,5 +1,6 @@
 package com.threec.auth.security;
 
+
 import com.alibaba.fastjson2.JSON;
 import com.threec.auth.dao.SysUserDao;
 import com.threec.auth.entity.SysUserEntity;
@@ -8,7 +9,6 @@ import com.threec.auth.security.enums.ResultEnums;
 import com.threec.common.mybatis.utils.R;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,18 +28,18 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.util.ObjectUtils;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
 @Configuration
-@RequiredArgsConstructor
 public class ApplicationConfig {
-    private final SysUserDao sysUserDao;
+    @Resource
+    private SysUserDao sysUserDao;
     @Value("${application.security.b-crypt-password-encoder.strength}")
     private int strength;
 
-    @Bean
-    @Qualifier("userDetailsService")
+    @Bean(name = "userDetailsService" )
     public UserDetailsService userDetailsService() {
         return username -> {
             SysUserEntity user = sysUserDao.findByUsername(username);
@@ -50,7 +50,7 @@ public class ApplicationConfig {
         };
     }
 
-    @Bean
+    @Bean(name = "authenticationProvider" )
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());

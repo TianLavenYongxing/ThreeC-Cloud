@@ -25,6 +25,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
+    @PostMapping("/smsAuthenticate")
+    public ResponseEntity<AuthenticationResponse> smsAuthenticate(@RequestBody SmsAuthenticationRequest request){
+        return ResponseEntity.ok(service.smsAuthenticate(request));
+    }
+
     @PostMapping("/refresh-token")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         service.refreshToken(request, response);

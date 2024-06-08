@@ -3,8 +3,6 @@ package com.threec.auth.security;
 import com.threec.auth.security.constant.AuthConstant;
 import com.threec.auth.security.filter.JwtAuthenticationFilter;
 import com.threec.auth.security.handler.ThreeCAuthorizationHandler;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -27,7 +25,7 @@ import javax.annotation.Resource;
 public class ThreeCSecurityConfig {
     @Resource
     private JwtAuthenticationFilter jwtAuthFilter;
-    @Resource
+    @Resource(name = "authenticationProvider")
     private AuthenticationProvider authenticationProvider;
     @Resource
     private ThreeCAuthorizationHandler threeCAuthorizationHandler;
@@ -35,8 +33,7 @@ public class ThreeCSecurityConfig {
     private AccessDeniedHandler accessDeniedHandler;
     @Resource
     private LogoutHandler logoutHandler;
-    @Resource
-    @Qualifier("authenticationEntryPoint")
+    @Resource(name = "authenticationEntryPoint")
     private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean

@@ -5,6 +5,7 @@ import com.threec.auth.dao.SysUserDao;
 import com.threec.auth.dto.SysUserDTO;
 import com.threec.auth.entity.SysUserEntity;
 import com.threec.auth.security.JwtService;
+import com.threec.auth.security.SmsAuthenticationToken;
 import com.threec.auth.security.constant.AuthConstant;
 import com.threec.common.mybatis.utils.ConvertUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,22 +40,13 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         SysUserEntity user = sysUserDao.findByUsername(request.getUsername());
-        AuthenticationUser authUser = ConvertUtils.sourceToTarget(user, AuthenticationUser.class);
-
-        SysUserDTO userDTO = ConvertUtils.sourceToTarget(request, SysUserDTO.class);
-        String jwtToken = jwtService.generateToken(userDTO);
-        String refreshToken = jwtService.generateRefreshToken(userDTO);
-        revokeAllUserTokens(authUser);
-        saveUserToken(authUser, jwtToken);
-        return AuthenticationResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).build();
+        return getAuthenticationResponse(user, ConvertUtils.sourceToTarget(request, SysUserDTO.class));
     }
 
-    private void saveUserToken(AuthenticationUser user, String jwtToken) {
-        // todo redis写入 根据userId 为key写入
-    }
-
-    private void revokeAllUserTokens(AuthenticationUser user) {
-        // todo redis 查询根据用户名查询令牌 后验证 为空直接返回 不为空设置过期后保存
+    public AuthenticationResponse smsAuthenticate(SmsAuthenticationRequest request) {
+        authenticationManager.authenticate(new SmsAuthenticationToken(request.getPhone(),request.getCode()));
+        SysUserEntity user = sysUserDao.findByPhone(request.getPhone());
+        return getAuthenticationResponse(user, ConvertUtils.sourceToTarget(request, SysUserDTO.class));
     }
 
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -77,5 +69,24 @@ public class AuthenticationService {
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+    }
+
+    private AuthenticationResponse getAuthenticationResponse(SysUserEntity user, SysUserDTO request) {
+        AuthenticationUser authUser = ConvertUtils.sourceToTarget(user, AuthenticationUser.class);
+
+        SysUserDTO userDTO = request;
+        String jwtToken = jwtService.generateToken(userDTO);
+        String refreshToken = jwtService.generateRefreshToken(userDTO);
+        revokeAllUserTokens(authUser);
+        saveUserToken(authUser, jwtToken);
+        return AuthenticationResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).build();
+    }
+
+    private void revokeAllUserTokens(AuthenticationUser user) {
+        // todo redis 查询根据用户名查询令牌 后验证 为空直接返回 不为空设置过期后保存
+    }
+
+    private void saveUserToken(AuthenticationUser user, String jwtToken) {
+        // todo redis写入 根据userId 为key写入
     }
 }

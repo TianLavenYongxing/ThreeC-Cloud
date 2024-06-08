@@ -27,8 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Resource
     private JwtService jwtService;
-    @Resource
-    @Qualifier("userDetailsService")
+    @Resource(name = "userDetailsService")
     private UserDetailsService userDetailsService;
 
     @Override
