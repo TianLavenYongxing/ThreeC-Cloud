@@ -19,6 +19,8 @@ public interface SysUserDao extends BaseDao<SysUserEntity> {
 
     SysUserEntity findByUsername(@Param("username")String username);
 
+    SysUserEntity findByPhone(@Param("phoneNumber")String phone);
+
     List<AuthUrlMethodDTO> authByUsername(@Param("username")String username,@Param("method") String method);
 	
 }

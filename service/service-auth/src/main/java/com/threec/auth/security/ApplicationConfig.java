@@ -9,6 +9,7 @@ import com.threec.common.mybatis.utils.R;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +39,7 @@ public class ApplicationConfig {
     private int strength;
 
     @Bean
+    @Qualifier("userDetailsService")
     public UserDetailsService userDetailsService() {
         return username -> {
             SysUserEntity user = sysUserDao.findByUsername(username);
@@ -85,7 +87,7 @@ public class ApplicationConfig {
             // todo 逻辑 ThreeCLoginFailureHandler一样实现 accessDeniedException逻辑
             response.setContentType(AuthConstant.CONTENT_TYPE);
             ServletOutputStream outputStream = response.getOutputStream();
-            R<Object> r = new R<>().error(HttpServletResponse.SC_FORBIDDEN,ResultEnums.ACCESS_DENIED.getMsg());
+            R<Object> r = new R<>().error(HttpServletResponse.SC_FORBIDDEN, ResultEnums.ACCESS_DENIED.getMsg());
             outputStream.write(JSON.toJSONString(r).getBytes());
             outputStream.flush();
             outputStream.close();
@@ -104,7 +106,7 @@ public class ApplicationConfig {
             response.setContentType(AuthConstant.CONTENT_TYPE);
             try {
                 ServletOutputStream outputStream = response.getOutputStream();
-                R<Object> r = new R<>().error(HttpServletResponse.SC_OK,ResultEnums.LOGOUT_SUCCESS.getMsg());
+                R<Object> r = new R<>().error(HttpServletResponse.SC_OK, ResultEnums.LOGOUT_SUCCESS.getMsg());
                 outputStream.write(JSON.toJSONString(r).getBytes());
                 outputStream.flush();
                 outputStream.close();

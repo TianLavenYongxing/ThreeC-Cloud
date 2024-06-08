@@ -4,6 +4,7 @@ import com.threec.auth.security.constant.AuthConstant;
 import com.threec.auth.security.filter.JwtAuthenticationFilter;
 import com.threec.auth.security.handler.ThreeCAuthorizationHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -19,17 +20,24 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
+import javax.annotation.Resource;
+
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class ThreeCSecurityConfig {
-
-    private final JwtAuthenticationFilter jwtAuthFilter;
-    private final AuthenticationProvider authenticationProvider;
-    private final ThreeCAuthorizationHandler threeCAuthorizationHandler;
-    private final AuthenticationEntryPoint authenticationEntryPoint;
-    private final AccessDeniedHandler accessDeniedHandler;
-    private final LogoutHandler logoutHandler;
+    @Resource
+    private JwtAuthenticationFilter jwtAuthFilter;
+    @Resource
+    private AuthenticationProvider authenticationProvider;
+    @Resource
+    private ThreeCAuthorizationHandler threeCAuthorizationHandler;
+    @Resource
+    private AccessDeniedHandler accessDeniedHandler;
+    @Resource
+    private LogoutHandler logoutHandler;
+    @Resource
+    @Qualifier("authenticationEntryPoint")
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
