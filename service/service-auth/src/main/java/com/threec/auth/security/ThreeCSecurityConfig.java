@@ -2,7 +2,6 @@ package com.threec.auth.security;
 
 import com.threec.auth.security.constant.AuthConstant;
 import com.threec.auth.security.filter.JwtAuthenticationFilter;
-import com.threec.auth.security.handler.ThreeCAuthLogoutHandler;
 import com.threec.auth.security.handler.ThreeCAuthorizationHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +17,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -29,7 +29,7 @@ public class ThreeCSecurityConfig {
     private final ThreeCAuthorizationHandler threeCAuthorizationHandler;
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final AccessDeniedHandler accessDeniedHandler;
-    private final ThreeCAuthLogoutHandler logoutHandler;
+    private final LogoutHandler logoutHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -44,7 +44,7 @@ public class ThreeCSecurityConfig {
             e.accessDeniedHandler(accessDeniedHandler);
             e.authenticationEntryPoint(authenticationEntryPoint);
         });
-        http.logout(logout -> logout.logoutUrl("/api/v1/auth/logout").addLogoutHandler(logoutHandler).logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext()));
+        http.logout(logout -> logout.logoutUrl(AuthConstant.AUTH_LOGOUT).addLogoutHandler(logoutHandler).logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext()));
         return http.build();
     }
 
