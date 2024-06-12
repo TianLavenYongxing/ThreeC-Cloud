@@ -1,4 +1,4 @@
-# ThreeC Cloud
+<div style="color:#16b0ff;font-size:50px;font-weight: 900;text-shadow: 5px 5px 10px var(--theme-color);font-family: 'Comic Sans MS';">ThreeC Cloud</div>
 
 ## 简介：
 
