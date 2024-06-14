@@ -21,5 +21,9 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.threec</groupId>
+            <artifactId>common-tools</artifactId>
+        </dependency>
     </dependencies>
 </project>
