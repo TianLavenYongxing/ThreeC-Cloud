@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class WebSocketUtils1 {
     public static void main(String[] args) {
-        URI uri = URI.create("ws://127.0.0.1:52469/api/Websocket/connect?userId=1415");
+        URI uri = URI.create("ws://39.105.172.5:8080/api/Websocket/connect/38bda601-97c8-11ee-98d6-00163e0c139f");
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
 
         try {
