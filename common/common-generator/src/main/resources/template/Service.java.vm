@@ -1,0 +1,30 @@
+package ${package}.service;
+
+import ${package}.mybatis.page.PageData;
+import ${package}.mybatis.service.BaseService;
+import ${package}.dto.${className}DTO;
+import ${package}.entity.${className}Entity;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${comments}
+ *
+ * @author ${author} ${email}
+ * @since ${version} ${date}
+ */
+public interface ${className}Service extends BaseService<${className}Entity> {
+
+    PageData<${className}DTO> page(Map<String, Object> params);
+
+    List<${className}DTO> list(Map<String, Object> params);
+
+    ${className}DTO get(String id);
+
+    void save(${className}DTO dto);
+
+    void update(${className}DTO dto);
+
+    void delete(String[] ids);
+}
