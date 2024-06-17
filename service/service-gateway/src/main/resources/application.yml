@@ -1,4 +1,20 @@
 server:
   port: 8888
-  servlet:
-    context-path: /gateway
+spring:
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      routes:
+        - id: prod
+          uri: http://127.0.0.1:8091
+          predicates:
+            - Path=/gateway/prod/**
+          filters:
+            - StripPrefix=1
+        - id: consumer
+          uri: http://127.0.0.1:8090
+          predicates:
+            - Path=/gateway/consumer/**
+          filters:
+            - StripPrefix=1
