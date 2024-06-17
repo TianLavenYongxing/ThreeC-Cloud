@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 import java.net.InetSocketAddress;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Class DetailedLoggingFilter.
@@ -35,7 +36,7 @@ import java.time.LocalDateTime;
 @Component
 @Slf4j
 public class DetailedLoggingFilter implements GlobalFilter, Ordered {
-
+    private static final String TRACE_ID_HEADER = "Trace-ID";
     @Override
     public int getOrder() {
         return -1;
@@ -43,14 +44,17 @@ public class DetailedLoggingFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        String traceId = exchange.getRequest().getHeaders().getFirst(TRACE_ID_HEADER);
+        if (traceId == null || traceId.isEmpty()) {
+            traceId = UUID.randomUUID().toString();
+            exchange = exchange.mutate().request(exchange.getRequest().mutate().header(TRACE_ID_HEADER, traceId).build()).build();
+        }
+        ServerWebExchange finalExchange = exchange;  // 创建一个新的局部变量
         LocalDateTime start = LocalDateTime.now();
-        // 首先调用 logRequestDetails，然后在其完成后继续链中的其他操作。
-        return logRequestDetails(exchange.getRequest(), start)
-                .then(chain.filter(exchange))
-                .then(Mono.defer(() -> {
+        return logRequestDetails(exchange.getRequest(), start) .then(chain.filter(exchange))  .then(Mono.defer(() -> {
                     LocalDateTime end = LocalDateTime.now();
                     Duration duration = Duration.between(start, end);
-                    return logResponseDetails(exchange.getResponse(), start, duration);
+                    return logResponseDetails(finalExchange.getResponse(), start, duration);
                 }));
     }
 
