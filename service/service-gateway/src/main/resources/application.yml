@@ -12,9 +12,22 @@ spring:
             - Path=/gateway/prod/**
           filters:
             - StripPrefix=1
+            - name: JwtAuthFilter
         - id: consumer
           uri: http://127.0.0.1:8090
           predicates:
             - Path=/gateway/consumer/**
           filters:
             - StripPrefix=1
+            - name: JwtAuthFilter
+        - id: auth
+          uri: http://127.0.0.1:8999
+          predicates:
+            - Path=/gateway/auth/**
+          filters:
+            - StripPrefix=1
+
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
