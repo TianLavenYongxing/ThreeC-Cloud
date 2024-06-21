@@ -22,10 +22,5 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.glassfish.tyrus.bundles</groupId>
-            <artifactId>tyrus-standalone-client</artifactId>
-            <version>1.17</version>
-        </dependency>
     </dependencies>
 </project>
