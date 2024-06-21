@@ -4,7 +4,7 @@ server:
     context-path: /auth
 spring:
   application:
-    name: auth
+    name: auth-service
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     #MySQL配置
@@ -12,6 +12,11 @@ spring:
     url: jdbc:mysql://mysql-read.mysql.svc.cluster.local:3306/sys_threec?useSSL=false&serverTimezone=UTC
     username: root
     password: MSStarForever*00
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:30101
+      username: nacos
+      password: nacos
 logging:
   level:
     com.threec.dao: debug

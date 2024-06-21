@@ -33,6 +33,20 @@ service:
 
 
 
+**备注:**
+
+**由于springcloud从2020版本开始弃用了Ribbon，所以Alibaba在2020及之后版本的nacos中删除了Ribbon的jar包， 因此无法通过lb路由到指定微服务，所以导致出现了503情况。**
+
+```json
+{
+  "timestamp": "2024-06-21T08:50:37.870+00:00",
+  "path": "/prod-service/prod/hot",
+  "status": 503,
+  "error": "Service Unavailable",
+  "requestId": "1b10528c-1"
+}
+```
+
 
 
 ## 感谢以下大佬的项目供我参考：
