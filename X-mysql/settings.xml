@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+
+    <pluginGroups>
+        <!-- pluginGroup
+         | Specifies a further group identifier to use for plugin lookup.
+        <pluginGroup>com.your.plugins</pluginGroup>
+        -->
+    </pluginGroups>
+
+    <proxies>
+
+    </proxies>
+
+    <servers>
+
+    </servers>
+
+    <mirrors>
+        <mirror>
+            <id>maven-default-http-blocker</id>
+            <mirrorOf>external:http:*</mirrorOf>
+            <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
+            <url>http://0.0.0.0/</url>
+            <blocked>true</blocked>
+        </mirror>
+        <mirror>
+            <id>aliyun-public</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun public</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </mirror>
+        <mirror>
+            <id>aliyun-central</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun central</name>
+            <url>https://maven.aliyun.com/repository/central</url>
+        </mirror>
+        <!--
+        其中千万要切记一点mirrorOf 里面千万不能配置*号，如果不配置 * ，假设aliyun maven没有的话就会去国外仓库下载，如果配置了 *号 ，
+        那阿里云仓库没有，就会报错《mirrorOf>central</mirrorOf》 表示 凡是 central 仓库的包由阿里云url下载，至于有哪些仓库
+        -->
+        <mirror>
+            <id>aliyun-spring</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun spring</name>
+            <url>https://maven.aliyun.com/repository/spring</url>
+        </mirror>
+        <mirror>
+            <id>aliyun-spring-plugin</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun spring-plugin</name>
+            <url>https://maven.aliyun.com/repository/spring-plugin</url>
+        </mirror>
+        <mirror>
+            <id>aliyun-apache-snapshots</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun apache-snapshots</name>
+            <url>https://maven.aliyun.com/repository/apache-snapshots</url>
+        </mirror>
+        <mirror>
+            <id>aliyun-google</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun google</name>
+            <url>https://maven.aliyun.com/repository/google</url>
+        </mirror>
+        <mirror>
+            <id>aliyun-gradle-plugin</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun gradle-plugin</name>
+            <url>https://maven.aliyun.com/repository/gradle-plugin</url>
+        </mirror>
+        <mirror>
+            <id>aliyun-jcenter</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun jcenter</name>
+            <url>https://maven.aliyun.com/repository/jcenter</url>
+        </mirror>
+        <mirror>
+            <id>aliyun-releases</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun releases</name>
+            <url>https://maven.aliyun.com/repository/releases</url>
+        </mirror>
+        <mirror>
+            <id>aliyun-snapshots</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun snapshots</name>
+            <url>https://maven.aliyun.com/repository/snapshots</url>
+        </mirror>
+        <mirror>
+            <id>aliyun-grails-core</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun grails-core</name>
+            <url>https://maven.aliyun.com/repository/grails-core</url>
+        </mirror>
+        <mirror>
+            <id>aliyun-mapr-public</id>
+            <mirrorOf>central</mirrorOf>
+            <name>aliyun mapr-public</name>
+            <url>https://maven.aliyun.com/repository/mapr-public</url>
+        </mirror>
+    </mirrors>
+
+    <profiles>
+
+    </profiles>
+
+</settings>

@@ -17,7 +17,7 @@ public class CommandStartup {
     public static void main(String[] args)
         throws URISyntaxException, IOException, InterruptedException {
         String[] strings = new String[3];
-        strings[0] = "rancher/local-path-provisioner:v0.0.26";
+        strings[0] = "devcoderz2014/sqlserver-2017-multi:latest";
         strings[1] = "127.0.0.1" ;
         strings[2] = "7890";
         DockerPull.pull(strings[0], strings[1], Integer.parseInt(strings[2]));
