@@ -14,8 +14,9 @@ public class AuthenticationServiceTest {
 
     @Resource
     JwtService jwtService;
+
     @Test
-    public void test1(){
+    public void test1() {
         AuthenticationUser authenticationUser = new AuthenticationUser();
         authenticationUser.setUsername("username");
         String jwt = jwtService.generateToken(authenticationUser);
@@ -25,7 +26,7 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    public void test2(){
+    public void test2() {
         System.out.println(AuthConstant.BEARER.length());
     }
 }

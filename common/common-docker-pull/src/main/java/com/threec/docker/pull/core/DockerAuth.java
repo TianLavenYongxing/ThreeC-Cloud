@@ -26,14 +26,13 @@ public class DockerAuth {
     private static final String IMG_TAG_SPLIT = ":";
 
 
-
-    private DockerAuth(){
+    private DockerAuth() {
         throw new UnsupportedOperationException();
     }
 
     public static String token(String image, String proxyUrl, Integer proxyPort)
-        throws URISyntaxException, IOException, InterruptedException {
-        if (image == null || image.isEmpty()){
+            throws URISyntaxException, IOException, InterruptedException {
+        if (image == null || image.isEmpty()) {
             log.info("image is null");
             return null;
         }
@@ -45,18 +44,18 @@ public class DockerAuth {
         HttpRequest request = HttpRequest.newBuilder().uri(uri).build();
 
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-        if (response.statusCode() != SUCCESS_CODE){
+        if (response.statusCode() != SUCCESS_CODE) {
             log.info("auth fail");
             return null;
-        }else {
+        } else {
             return JSONObject.parseObject(response.body()).getString("token");
         }
 
     }
 
 
-    private static String buildAuthUrl(String image){
-        if (image.contains(IMG_TAG_SPLIT)){
+    private static String buildAuthUrl(String image) {
+        if (image.contains(IMG_TAG_SPLIT)) {
             image = image.split(IMG_TAG_SPLIT)[0];
         }
         return AUTH_URL + "?service=" + SERVICE + "&scope=repository:" + image + ":pull";

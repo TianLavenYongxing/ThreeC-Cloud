@@ -12,6 +12,6 @@ public class HttpContextUtils {
 
     public static HttpServletRequest getHttpServletRequest() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        return requestAttributes == null ? null : ((ServletRequestAttributes)requestAttributes).getRequest();
+        return requestAttributes == null ? null : ((ServletRequestAttributes) requestAttributes).getRequest();
     }
 }

@@ -12,7 +12,7 @@ import java.util.Map;
  * 系统用户表
  *
  * @author Laven tianlavenyongxing@gmail.com
- * @since  2024-04-25
+ * @since 2024-04-25
  */
 public interface SysUserService extends BaseService<SysUserEntity> {
 

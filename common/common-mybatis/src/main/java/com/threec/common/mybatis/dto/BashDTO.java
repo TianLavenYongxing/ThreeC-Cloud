@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class BashDTO  implements Serializable {
+public class BashDTO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

@@ -36,12 +36,12 @@ public class RedisUtil {
     /**
      * 指定缓存失效时间
      *
-     * @param key  键
-     * @param time 时间(秒)
+     * @param key      键
+     * @param time     时间(秒)
      * @param timeUnit 时间单位
      * @return boolean
      */
-    public boolean expire(String key, long time,TimeUnit timeUnit) {
+    public boolean expire(String key, long time, TimeUnit timeUnit) {
         return redisTemplate.expire(key, time, timeUnit);
     }
 
@@ -62,7 +62,7 @@ public class RedisUtil {
      * @return true 存在 false不存在
      */
     public boolean hasKey(String key) {
-       return redisTemplate.hasKey(key);
+        return redisTemplate.hasKey(key);
     }
 
     /**
@@ -94,6 +94,7 @@ public class RedisUtil {
 
     /**
      * 普通缓存放入
+     *
      * @param key   键
      * @param value 值
      */
@@ -103,6 +104,7 @@ public class RedisUtil {
 
     /**
      * 普通缓存放入并设置时间
+     *
      * @param key   键
      * @param value 值
      * @param time  时间(秒) time要大于0 如果time小于等于0 将设置无限期
@@ -141,7 +143,7 @@ public class RedisUtil {
     /**
      * 递增
      *
-     * @param key   键
+     * @param key 键
      * @return long
      */
     public long incr(String key) {
@@ -187,6 +189,7 @@ public class RedisUtil {
 
     /**
      * HashSet
+     *
      * @param key 键
      * @param map 对应多个键值
      */
@@ -196,19 +199,21 @@ public class RedisUtil {
 
     /**
      * HashSet 并设置时间
-     * @param key  键
-     * @param map  对应多个键值
-     * @param time 时间(秒)
+     *
+     * @param key      键
+     * @param map      对应多个键值
+     * @param time     时间(秒)
      * @param timeUnit 时间单位
      * @return true成功 false失败
      */
-    public void hmset(String key, Map<String, Object> map, long time,TimeUnit timeUnit) {
+    public void hmset(String key, Map<String, Object> map, long time, TimeUnit timeUnit) {
         redisTemplate.opsForHash().putAll(key, map);
-        expire(key, time,timeUnit);
+        expire(key, time, timeUnit);
     }
 
     /**
      * HashSet 并设置时间
+     *
      * @param key  键
      * @param map  对应多个键值
      * @param time 时间(秒)
@@ -221,6 +226,7 @@ public class RedisUtil {
 
     /**
      * 向一张hash表中放入数据,如果不存在将创建
+     *
      * @param key   键
      * @param item  项
      * @param value 值
@@ -231,6 +237,7 @@ public class RedisUtil {
 
     /**
      * 向一张hash表中放入数据,如果不存在将创建
+     *
      * @param key   键
      * @param item  项
      * @param value 值
@@ -300,6 +307,7 @@ public class RedisUtil {
 
     /**
      * 根据value从一个set中查询,是否存在
+     *
      * @param key   键
      * @param value 值
      * @return true 存在 false不存在
@@ -321,6 +329,7 @@ public class RedisUtil {
 
     /**
      * 将set数据放入缓存
+     *
      * @param key    键
      * @param time   时间(秒)
      * @param values 值 可以是多个
@@ -334,14 +343,15 @@ public class RedisUtil {
 
     /**
      * 将set数据放入缓存
+     *
      * @param key    键
      * @param time   时间(秒)
      * @param values 值 可以是多个
      * @return 成功个数
      */
-    public long sSetAndTime(String key, long time, TimeUnit timeUnit,Object... values) {
+    public long sSetAndTime(String key, long time, TimeUnit timeUnit, Object... values) {
         Long count = redisTemplate.opsForSet().add(key, values);
-        expire(key, time,timeUnit);
+        expire(key, time, timeUnit);
         return count;
     }
 
@@ -369,6 +379,7 @@ public class RedisUtil {
 
     /**
      * 随机抽取一个元素
+     *
      * @param key
      * @return
      */
@@ -387,7 +398,7 @@ public class RedisUtil {
      * @return List
      */
     public List<Object> lGet(String key, long start, long end) {
-       return redisTemplate.opsForList().range(key, start, end);
+        return redisTemplate.opsForList().range(key, start, end);
     }
 
     /**
@@ -424,6 +435,7 @@ public class RedisUtil {
 
     /**
      * 将list放入缓存
+     *
      * @param key   键
      * @param value 值
      * @param time  时间(秒)
@@ -435,6 +447,7 @@ public class RedisUtil {
 
     /**
      * 将list放入缓存
+     *
      * @param key   键
      * @param value 值
      */
@@ -482,22 +495,22 @@ public class RedisUtil {
     /**
      * 获取自增序列的值，如果没有指定默认值
      *
-     * @param key   键
+     * @param key      键
      * @param defaultV 默认值
      * @return 自增值
      */
-    public Long incrementIfAbsent(String key,Long defaultV) {
-      return incrementIfAbsent(key,defaultV,1L);
+    public Long incrementIfAbsent(String key, Long defaultV) {
+        return incrementIfAbsent(key, defaultV, 1L);
     }
 
     /**
      * 设置序列默认值，如果没有指定默认值
      *
-     * @param key   键
+     * @param key       键
      * @param initValue 默认值
      * @return 自增值
      */
-    public void setIfAbsent(String key,Long initValue) {
+    public void setIfAbsent(String key, Long initValue) {
         ValueOperations<String, Object> valueOps = redisTemplate.opsForValue();
         valueOps.setIfAbsent(key, initValue);
     }
@@ -505,12 +518,12 @@ public class RedisUtil {
     /**
      * 获取自增序列的值，如果没有指定默认值
      *
-     * @param key   键
+     * @param key      键
      * @param defaultV 默认值
-     * @param delta 偏移量
+     * @param delta    偏移量
      * @return 自增值
      */
-    public Long incrementIfAbsent(String key,Long defaultV,Long delta) {
+    public Long incrementIfAbsent(String key, Long defaultV, Long delta) {
         ValueOperations<String, Object> valueOps = redisTemplate.opsForValue();
         Boolean keyExists = valueOps.setIfAbsent(key, defaultV);
         if (Boolean.TRUE.equals(keyExists)) {
@@ -518,7 +531,7 @@ public class RedisUtil {
             return 0L;
         } else {
             // Key already existed, perform increment
-            return valueOps.increment(key,delta);
+            return valueOps.increment(key, delta);
         }
     }
 
@@ -528,9 +541,9 @@ public class RedisUtil {
     /**
      * 尝试获取分布式锁
      *
-     * @param lockKey     锁的键
-     * @param requestId   请求标识，可以是唯一标识符，例如 UUID
-     * @param expireTime  锁的过期时间（秒）
+     * @param lockKey    锁的键
+     * @param requestId  请求标识，可以是唯一标识符，例如 UUID
+     * @param expireTime 锁的过期时间（秒）
      * @return 是否成功获取锁
      */
     public boolean tryLock(String lockKey, String requestId, long expireTime) {
@@ -548,7 +561,7 @@ public class RedisUtil {
      */
     public boolean releaseLock(String lockKey, String requestId) {
         ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
-        String currentValue =(String) valueOperations.get(lockKey);
+        String currentValue = (String) valueOperations.get(lockKey);
         if (currentValue != null && currentValue.equals(requestId)) {
             // 释放锁
             return Boolean.TRUE.equals(redisTemplate.delete(lockKey));

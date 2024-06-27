@@ -1,9 +1,9 @@
 package com.threec.gateway.controller;
 
+import com.threec.tools.utils.R;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.threec.tools.utils.R;
 
 /**
  * Class HelloController.
@@ -19,7 +19,7 @@ import com.threec.tools.utils.R;
 @RequestMapping("hello")
 public class HelloController {
     @GetMapping()
-    public R<Object> hello(){
+    public R<Object> hello() {
         return new R<>().ok("Hello");
     }
 }

@@ -1,10 +1,10 @@
 package com.threec.prod.controller;
 
 import com.threec.prod.utils.RandomHotTopicsUtils;
+import com.threec.tools.utils.R;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.threec.tools.utils.R;
 
 /**
  * Class RandomHotTopicController.
@@ -21,7 +21,7 @@ import com.threec.tools.utils.R;
 public class RandomHotTopicController {
 
     @GetMapping()
-    public  R<Object> hot(){
-       return new R<>().ok(RandomHotTopicsUtils.getRandomHotTopic());
+    public R<Object> hot() {
+        return new R<>().ok(RandomHotTopicsUtils.getRandomHotTopic());
     }
 }

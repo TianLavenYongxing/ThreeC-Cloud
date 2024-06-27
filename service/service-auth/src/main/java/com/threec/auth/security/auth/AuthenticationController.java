@@ -4,7 +4,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
@@ -26,7 +29,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/smsAuthenticate")
-    public ResponseEntity<AuthenticationResponse> smsAuthenticate(@RequestBody SmsAuthenticationRequest request){
+    public ResponseEntity<AuthenticationResponse> smsAuthenticate(@RequestBody SmsAuthenticationRequest request) {
         return ResponseEntity.ok(service.smsAuthenticate(request));
     }
 

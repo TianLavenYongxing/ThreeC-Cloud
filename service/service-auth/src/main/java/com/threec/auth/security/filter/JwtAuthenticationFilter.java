@@ -1,15 +1,14 @@
 package com.threec.auth.security.filter;
 
+import com.threec.auth.security.JwtService;
 import com.threec.auth.security.constant.AuthConstant;
 import com.threec.auth.security.dto.JWTValidationResult;
-import com.threec.auth.security.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

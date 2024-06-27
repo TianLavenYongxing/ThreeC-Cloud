@@ -3,6 +3,7 @@ package com.threec.prod;
 import com.threec.prod.utils.RedisUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
 /**
  * Class RedisTest.
  * <p>
@@ -14,13 +15,11 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @since 24/6/24
  */
 
-
-
 @SpringBootTest
 public class RedisTest {
     @Test
-    void redisTest(){
-        RedisUtils.StringOps.set("s","women");
+    void redisTest() {
+        RedisUtils.StringOps.set("s", "women");
     }
 }
 

@@ -12,15 +12,15 @@ import java.util.List;
  * 系统用户表
  *
  * @author Laven tianlavenyongxing@gmail.com
- * @since  2024-06-01
+ * @since 2024-06-01
  */
 @Mapper
 public interface SysUserDao extends BaseDao<SysUserEntity> {
 
-    SysUserEntity findByUsername(@Param("username")String username);
+    SysUserEntity findByUsername(@Param("username") String username);
 
-    SysUserEntity findByPhone(@Param("phoneNumber")String phone);
+    SysUserEntity findByPhone(@Param("phoneNumber") String phone);
 
-    List<AuthUrlMethodDTO> authByUsername(@Param("username")String username,@Param("method") String method);
-	
+    List<AuthUrlMethodDTO> authByUsername(@Param("username") String username, @Param("method") String method);
+
 }

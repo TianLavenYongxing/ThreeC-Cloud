@@ -27,23 +27,20 @@ import java.util.Scanner;
  */
 public class DockerPull {
 
+    public static final String DOWNLOAD_TMP = "/download_tmp/";
     private static final String IMG_TAG_SPLIT = ":";
-
     private static final String LATEST = "latest";
-
     private static final int SUCCESS_CODE = 200;
-
     private static final Logger log = LoggerFactory.getLogger(DockerPull.class);
     private static final String DIGEST_FLAG = "digest";
-    public static final String DOWNLOAD_TMP = "/download_tmp/";
 
     private DockerPull() {
 
     }
 
     public static void pull(String image, String proxyUrl, Integer proxyPort)
-        throws InterruptedException, URISyntaxException, IOException {
-        if (!image.contains("/")){
+            throws InterruptedException, URISyntaxException, IOException {
+        if (!image.contains("/")) {
             image = "library/" + image;
         }
         String token = DockerAuth.token(image, proxyUrl, proxyPort);
@@ -56,7 +53,7 @@ public class DockerPull {
         }
         String[] split = image.split(IMG_TAG_SPLIT);
         manifestInfo = getImageMainManifest(split[0], split[1], proxyUrl, proxyPort, token,
-            null);
+                null);
 
         JSONObject config = getConfig(manifestInfo, image, proxyUrl, proxyPort, token);
 
@@ -64,24 +61,24 @@ public class DockerPull {
         for (int i = 0; i < layers.size(); i++) {
             JSONObject layer = (JSONObject) layers.get(i);
             downloadLayerStream(proxyUrl, proxyPort, token, image, layer.getString(DIGEST_FLAG),
-                layers.size(), i);
+                    layers.size(), i);
         }
         ImageTar.downloadAndCreateDockerImageTar(image, layers, config, proxyUrl, proxyPort, token);
 
     }
 
     private static JSONObject getConfig(JSONObject manifestInfo, String image, String proxyUrl, Integer proxyPort, String token)
-        throws IOException, InterruptedException {
+            throws IOException, InterruptedException {
         JSONObject config;
-        if (manifestInfo.getJSONArray("manifests") != null){
+        if (manifestInfo.getJSONArray("manifests") != null) {
             JSONArray manifests = manifestInfo.getJSONArray("manifests");
             log.info("choose one");
             for (int i = 0; i < manifests.size(); i++) {
                 JSONObject manifest = (JSONObject) manifests.get(i);
                 JSONObject platform = manifest.getJSONObject("platform");
                 String logInfo = String.format("[%d] architecture: %s, os: %s, size: %d",
-                    i, platform.getString("architecture"), platform.getString("os"),
-                    manifest.getLong("size"));
+                        i, platform.getString("architecture"), platform.getString("os"),
+                        manifest.getLong("size"));
                 log.info(logInfo);
             }
             int choose = -1;
@@ -100,17 +97,17 @@ public class DockerPull {
             log.info("get manifest config...");
             if (!image.contains(IMG_TAG_SPLIT)) {
                 config = getImageMainManifest(image, manifest.getString(DIGEST_FLAG), proxyUrl, proxyPort,
-                    token,
-                    manifest.getString("mediaType"));
+                        token,
+                        manifest.getString("mediaType"));
             } else {
                 String[] split = image.split(IMG_TAG_SPLIT);
                 config = getImageMainManifest(split[0], manifest.getString(DIGEST_FLAG), proxyUrl,
-                    proxyPort, token,
-                    manifest.getString("mediaType"));
+                        proxyPort, token,
+                        manifest.getString("mediaType"));
             }
             log.info("done");
             return config;
-        }else {
+        } else {
             return manifestInfo;
         }
 
@@ -118,36 +115,36 @@ public class DockerPull {
     }
 
     private static JSONObject getImageMainManifest(String imageName, String reference,
-        String proxyUrl, Integer proxyPort,
-        String token, String mediaType)
-        throws IOException, InterruptedException {
+                                                   String proxyUrl, Integer proxyPort,
+                                                   String token, String mediaType)
+            throws IOException, InterruptedException {
         HttpClient httpClient = ClientBuilder.build(proxyUrl, proxyPort);
 
         if (mediaType == null) {
             mediaType = "application/vnd.docker.distribution.manifest.v2+json";
         }
         HttpRequest request = HttpRequest.newBuilder()
-            .header("Authorization", "Bearer " + token)
-            .header("Accept", mediaType)
-            .uri(URI.create(
-                String.format("https://registry-1.docker.io/v2/%s/manifests/%s", imageName,
-                    reference)))
-            .build();
+                .header("Authorization", "Bearer " + token)
+                .header("Accept", mediaType)
+                .uri(URI.create(
+                        String.format("https://registry-1.docker.io/v2/%s/manifests/%s", imageName,
+                                reference)))
+                .build();
         HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
         return JSONObject.parseObject(response.body());
     }
 
     private static void downloadLayerStream(String proxyUrl, Integer proxyPort, String token,
-        String image, String layerDigest, int all, int cur)
-        throws IOException, InterruptedException {
+                                            String image, String layerDigest, int all, int cur)
+            throws IOException, InterruptedException {
         String imageName = image.contains(IMG_TAG_SPLIT) ? image.split(IMG_TAG_SPLIT)[0] : image;
         HttpClient httpClient = ClientBuilder.build(proxyUrl, proxyPort);
         HttpRequest request = HttpRequest.newBuilder()
-            .header("Authorization", "Bearer " + token)
-            .uri(URI.create(
-                String.format("https://registry-1.docker.io/v2/%s/blobs/%s", imageName,
-                    layerDigest)))
-            .build();
+                .header("Authorization", "Bearer " + token)
+                .uri(URI.create(
+                        String.format("https://registry-1.docker.io/v2/%s/blobs/%s", imageName,
+                                layerDigest)))
+                .build();
 
         HttpResponse<InputStream> response = httpClient.send(request, BodyHandlers.ofInputStream());
         if (response.statusCode() == SUCCESS_CODE) {
@@ -158,8 +155,8 @@ public class DockerPull {
                 return;
             }
             Path path = Paths.get(
-                new File("").getAbsolutePath() + DOWNLOAD_TMP + layerDigest.split(IMG_TAG_SPLIT)[1]
-                    + ".tar");
+                    new File("").getAbsolutePath() + DOWNLOAD_TMP + layerDigest.split(IMG_TAG_SPLIT)[1]
+                            + ".tar");
             File tarFile = path.toFile();
             if (tarFile.exists() && tarFile.length() == contentLength) {
                 log.info("{}.tar file exist, use local file", layerDigest.split(IMG_TAG_SPLIT)[1]);
@@ -167,8 +164,8 @@ public class DockerPull {
             }
             Files.createDirectories(path.getParent());
             try (InputStream inputStream = response.body();
-                OutputStream outputStream = Files.newOutputStream(path, StandardOpenOption.CREATE,
-                    StandardOpenOption.WRITE)) {
+                 OutputStream outputStream = Files.newOutputStream(path, StandardOpenOption.CREATE,
+                         StandardOpenOption.WRITE)) {
                 byte[] buffer = new byte[8192];
                 long bytesReadTotal = 0;
                 int bytesRead;
@@ -202,7 +199,6 @@ public class DockerPull {
         String progressFormat = String.format("%.2f", progress);
         log.info("[{}] {}% {}/{}", progressBar, progressFormat, cur + 1, all);
     }
-
 
 
 }

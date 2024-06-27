@@ -3,6 +3,7 @@ package com.threec.common.mybatis.page;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,19 +17,19 @@ public class PageData<T> implements Serializable {
 
     public PageData(List<T> list, long total) {
         this.list = list;
-        this.total = (int)total;
+        this.total = (int) total;
     }
 
     public int getTotal() {
         return this.total;
     }
 
-    public List<T> getList() {
-        return this.list;
-    }
-
     public void setTotal(final int total) {
         this.total = total;
+    }
+
+    public List<T> getList() {
+        return this.list;
     }
 
     public void setList(final List<T> list) {
@@ -41,7 +42,7 @@ public class PageData<T> implements Serializable {
         } else if (!(o instanceof PageData)) {
             return false;
         } else {
-            PageData<?> other = (PageData)o;
+            PageData<?> other = (PageData) o;
             if (!other.canEqual(this)) {
                 return false;
             } else if (this.getTotal() != other.getTotal()) {

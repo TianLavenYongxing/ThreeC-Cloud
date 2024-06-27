@@ -37,6 +37,7 @@ import java.util.UUID;
 @Slf4j
 public class DetailedLoggingFilter implements GlobalFilter, Ordered {
     private static final String TRACE_ID_HEADER = "Trace-ID";
+
     @Override
     public int getOrder() {
         return -1;
@@ -51,17 +52,18 @@ public class DetailedLoggingFilter implements GlobalFilter, Ordered {
         }
         ServerWebExchange finalExchange = exchange;  // 创建一个新的局部变量
         LocalDateTime start = LocalDateTime.now();
-        return logRequestDetails(exchange.getRequest(), start) .then(chain.filter(exchange))  .then(Mono.defer(() -> {
-                    LocalDateTime end = LocalDateTime.now();
-                    Duration duration = Duration.between(start, end);
-                    return logResponseDetails(finalExchange.getResponse(), start, duration);
-                }));
+        return logRequestDetails(exchange.getRequest(), start).then(chain.filter(exchange)).then(Mono.defer(() -> {
+            LocalDateTime end = LocalDateTime.now();
+            Duration duration = Duration.between(start, end);
+            return logResponseDetails(finalExchange.getResponse(), start, duration);
+        }));
     }
 
     /**
      * todo WebFlux环境中 无法从response中 获取到响应内容 需各个服务自行实现
+     *
      * @param response response
-     * @param start 请求开始时间
+     * @param start    请求开始时间
      * @param duration 请求执行时间
      * @return mono
      */
@@ -77,6 +79,7 @@ public class DetailedLoggingFilter implements GlobalFilter, Ordered {
 
     /**
      * todo 敏感信息加密 脱敏
+     *
      * @param request 基本请求信息: HTTP 方法、请求 URI、HTTP 协议版本(未获取)
      *                客户端信息: 客户端 IP 地址 端口号、User-Agent
      *                请求头部: 所有请求头部：包括认证信息（如 Authorization）、内容类型（Content-Type）、接受类型（Accept）等

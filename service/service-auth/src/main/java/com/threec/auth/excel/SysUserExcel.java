@@ -10,16 +10,16 @@ import java.util.Date;
  * 系统用户表
  *
  * @author Laven tianlavenyongxing@gmail.com
- * @since  2024-04-25
+ * @since 2024-04-25
  */
 @Data
 @ContentRowHeight(20)
 @HeadRowHeight(20)
 @ColumnWidth(25)
 //设置字体
-@HeadFontStyle(fontHeightInPoints = 12,fontName ="Porsche Next")
+@HeadFontStyle(fontHeightInPoints = 12, fontName = "Porsche Next")
 // 内容字体设置成20
-@ContentFontStyle(fontHeightInPoints = 11,fontName ="Porsche Next")
+@ContentFontStyle(fontHeightInPoints = 11, fontName = "Porsche Next")
 public class SysUserExcel {
     @ExcelProperty(value = "ID")
     private Integer id;

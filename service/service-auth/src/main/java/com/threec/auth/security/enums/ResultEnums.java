@@ -16,7 +16,7 @@ public enum ResultEnums {
     LOGIN_SUCCESS(70013, " TC login success"),
     LOGOUT_SUCCESS(70014, " TC Logout success"),
     ALTERNATE_LOGIN(70015, " TC Account accessed from another device"),
-   INVALID_REQUEST_DATA (70016, "TC Invalid request data"),
+    INVALID_REQUEST_DATA(70016, "TC Invalid request data"),
     SUCCESS(200, " TC 成功");
 
     private int code;

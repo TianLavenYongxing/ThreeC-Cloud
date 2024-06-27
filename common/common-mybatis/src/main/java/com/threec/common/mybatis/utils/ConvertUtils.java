@@ -1,11 +1,11 @@
 package com.threec.common.mybatis.utils;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +25,7 @@ public class ConvertUtils {
             try {
                 Iterator var3 = sourceList.iterator();
 
-                while(var3.hasNext()) {
+                while (var3.hasNext()) {
                     Object source = var3.next();
                     T targetObject = target.newInstance();
                     BeanUtils.copyProperties(source, targetObject);
@@ -66,14 +66,14 @@ public class ConvertUtils {
             try {
                 Iterator var5 = sourceList.iterator();
 
-                while(var5.hasNext()) {
+                while (var5.hasNext()) {
                     Object source = var5.next();
                     T targetObject = target.newInstance();
                     BeanUtils.copyProperties(source, targetObject);
                     String[] var8 = fieldNames;
                     int var9 = fieldNames.length;
 
-                    for(int var10 = 0; var10 < var9; ++var10) {
+                    for (int var10 = 0; var10 < var9; ++var10) {
                         String fieldName = var8[var10];
                         setFieldValueByFieldName(fieldName, targetObject, getFieldValueByFieldName(fieldName + language, source));
                     }
@@ -87,6 +87,7 @@ public class ConvertUtils {
             return targetList;
         }
     }
+
     private static void setFieldValueByFieldName(String fieldName, Object object, String value) {
         try {
             Class c = object.getClass();

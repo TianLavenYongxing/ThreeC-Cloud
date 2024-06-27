@@ -4,7 +4,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 public class MessageUtil {
-    private static MessageSource messageSource = (MessageSource)SpringContextUtils.getBean("messageSource");
+    private static MessageSource messageSource = (MessageSource) SpringContextUtils.getBean("messageSource");
 
     public MessageUtil() {
     }

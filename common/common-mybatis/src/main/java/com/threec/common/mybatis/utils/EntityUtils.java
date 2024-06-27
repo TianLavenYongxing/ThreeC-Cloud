@@ -15,7 +15,7 @@ public class EntityUtils {
         Long[] var3 = ids;
         int var4 = ids.length;
 
-        for(int var5 = 0; var5 < var4; ++var5) {
+        for (int var5 = 0; var5 < var4; ++var5) {
             Long id = var3[var5];
             T entityObject = deletedBy(id, entity);
             entityList.add(entityObject);
@@ -27,7 +27,7 @@ public class EntityUtils {
     public static <T> T deletedBy(Long id, Class<T> entity) {
         Map<String, Object> map = new HashMap(4);
         map.put("id", id);
-        map.put("updateBy",1);   //todo 后期完善 去获取系统用户id
+        map.put("updateBy", 1);   //todo 后期完善 去获取系统用户id
         map.put("updateTime", new Date());
         map.put("delFlag", DelFlagEnum.DEL.value());
         T entityObject = null;
@@ -39,8 +39,8 @@ public class EntityUtils {
 
         Iterator var4 = map.entrySet().iterator();
 
-        while(var4.hasNext()) {
-            Map.Entry<String, Object> entry = (Map.Entry)var4.next();
+        while (var4.hasNext()) {
+            Map.Entry<String, Object> entry = (Map.Entry) var4.next();
             setValue(entityObject, entry.getKey(), entry.getValue());
         }
 
@@ -48,12 +48,12 @@ public class EntityUtils {
     }
 
     private static <T> void setValue(T entity, String key, Object value) {
-        for(Class<?> clazz = entity.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
+        for (Class<?> clazz = entity.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
             Field[] fields = clazz.getDeclaredFields();
             Field[] var5 = fields;
             int var6 = fields.length;
 
-            for(int var7 = 0; var7 < var6; ++var7) {
+            for (int var7 = 0; var7 < var6; ++var7) {
                 Field field = var5[var7];
                 field.setAccessible(true);
                 if (field.getName().equalsIgnoreCase(key)) {

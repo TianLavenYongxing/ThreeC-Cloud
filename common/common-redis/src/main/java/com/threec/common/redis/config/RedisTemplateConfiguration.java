@@ -49,6 +49,7 @@ public class RedisTemplateConfiguration {
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
+
     /**
      * 创建redis序列化器
      */

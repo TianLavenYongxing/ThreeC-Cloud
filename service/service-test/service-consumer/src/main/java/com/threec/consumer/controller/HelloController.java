@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @GetMapping()
-    public R<Object> hello(){
+    public R<Object> hello() {
         return new R<>().ok("hello");
     }
 }

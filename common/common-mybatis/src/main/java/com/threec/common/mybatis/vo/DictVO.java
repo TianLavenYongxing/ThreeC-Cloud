@@ -16,36 +16,36 @@ public class DictVO {
         return this.id;
     }
 
-    public String getCode() {
-        return this.code;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getParam() {
-        return this.param;
-    }
-
-    public List<DictVO> getChildDicts() {
-        return this.childDicts;
-    }
-
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public String getCode() {
+        return this.code;
     }
 
     public void setCode(final String code) {
         this.code = code;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     public void setName(final String name) {
         this.name = name;
     }
 
+    public String getParam() {
+        return this.param;
+    }
+
     public void setParam(final String param) {
         this.param = param;
+    }
+
+    public List<DictVO> getChildDicts() {
+        return this.childDicts;
     }
 
     public void setChildDicts(final List<DictVO> childDicts) {
@@ -58,11 +58,12 @@ public class DictVO {
         } else if (!(o instanceof DictVO)) {
             return false;
         } else {
-            DictVO other = (DictVO)o;
+            DictVO other = (DictVO) o;
             if (!other.canEqual(this)) {
                 return false;
             } else {
-                label71: {
+                label71:
+                {
                     Object this$id = this.getId();
                     Object other$id = other.getId();
                     if (this$id == null) {
@@ -86,7 +87,8 @@ public class DictVO {
                     return false;
                 }
 
-                label57: {
+                label57:
+                {
                     Object this$name = this.getName();
                     Object other$name = other.getName();
                     if (this$name == null) {

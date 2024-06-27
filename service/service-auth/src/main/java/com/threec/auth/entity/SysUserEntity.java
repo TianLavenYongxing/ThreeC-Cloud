@@ -2,7 +2,6 @@ package com.threec.auth.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.threec.common.mybatis.entity.BaseEntity;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -14,58 +13,58 @@ import java.util.Collection;
  * 系统用户表
  *
  * @author Laven tianlavenyongxing@gmail.com
- * @since  2024-06-01
+ * @since 2024-06-01
  */
 @Data
 @Accessors(chain = true)
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @TableName("sys_user")
 public class SysUserEntity extends BaseEntity {
 
     /**
      * 用户名
      */
-	private String username;
+    private String username;
     /**
      * 昵称
      */
-	private String nickName;
+    private String nickName;
     /**
      * 密码
      */
-	private String password;
+    private String password;
     /**
      * 邮箱
      */
-	private String email;
+    private String email;
     /**
      * 手机号
      */
-	private String phoneNumber;
+    private String phoneNumber;
     /**
      * 0男,1女,2跨性别,3未知
      */
-	private Integer sex;
+    private Integer sex;
     /**
      * 头像
      */
-	private String avatar;
+    private String avatar;
     /**
      * 启用（0未启用，1启用）
      */
-	private Boolean enabled;
+    private Boolean enabled;
     /**
      * 帐户未过期（0过期，1未过期）
      */
-	private Boolean accountNonExpired;
+    private Boolean accountNonExpired;
     /**
      * 凭证未过期(0过期，1未过期)
      */
-	private Boolean credentialsNonExpired;
+    private Boolean credentialsNonExpired;
     /**
      * 帐户未锁定(0锁定，1未锁定)
      */
-	private Boolean accountNonLocked;
+    private Boolean accountNonLocked;
 
     private Collection<String> roles;
 }

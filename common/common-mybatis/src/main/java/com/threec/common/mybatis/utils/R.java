@@ -23,7 +23,7 @@ public class R<T> implements Serializable {
         return this;
     }
 
-    public R<T> ok(int code, String msg,T data) {
+    public R<T> ok(int code, String msg, T data) {
         this.setData(data);
         this.code = code;
         this.msg = msg;

@@ -3,18 +3,17 @@ package com.threec.auth.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-
 import com.threec.auth.dao.SysUserDao;
 import com.threec.auth.dto.SysUserDTO;
 import com.threec.auth.entity.SysUserEntity;
 import com.threec.auth.service.SysUserService;
+import com.threec.common.mybatis.constant.Constant;
+import com.threec.common.mybatis.page.PageData;
+import com.threec.common.mybatis.service.Impl.BaseServiceImpl;
 import com.threec.common.mybatis.utils.ConvertUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.threec.common.mybatis.service.Impl.BaseServiceImpl;
-import com.threec.common.mybatis.page.PageData;
-import com.threec.common.mybatis.constant.Constant;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +23,7 @@ import java.util.Map;
  * 系统用户表
  *
  * @author Laven tianlavenyongxing@gmail.com
- * @since  2024-04-25
+ * @since 2024-04-25
  */
 @Service
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntity> implements SysUserService {
@@ -46,8 +45,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntit
         return ConvertUtils.sourceToTarget(entityList, SysUserDTO.class);
     }
 
-    private QueryWrapper<SysUserEntity> getWrapper(Map<String, Object> params){
-        String id = (String)params.get("id");
+    private QueryWrapper<SysUserEntity> getWrapper(Map<String, Object> params) {
+        String id = (String) params.get("id");
 
         QueryWrapper<SysUserEntity> wrapper = new QueryWrapper<>();
         wrapper.eq(StringUtils.isNotBlank(id), "id", id);

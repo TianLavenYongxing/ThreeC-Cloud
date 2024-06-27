@@ -57,7 +57,6 @@ public class RedisUtils implements ApplicationContextAware {
     }
 
 
-
     /**
      * key相关操作
      */
