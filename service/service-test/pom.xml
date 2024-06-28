@@ -10,8 +10,6 @@
     <artifactId>service-test</artifactId>
     <packaging>pom</packaging>
 
-    <name>service-test</name>
-    <url>http://maven.apache.org</url>
     <modules>
         <module>service-prod</module>
         <module>service-consumer</module>
