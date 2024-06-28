@@ -16,11 +16,12 @@ COPY service/service-test/service-prod/pom.xml service/service-test/service-prod
 # 使用 Maven 下载所有依赖，利用 Docker 缓存优化 后续构建将不会重复下载maven依赖 若前面pom有更新 将重新下载
 RUN mvn dependency:go-offline
 COPY . .
-RUN mvn clean package -DskipTests
+RUN mvn clean package
 RUN ls -l /app/service/service-test/service-prod/*
 
 FROM openjdk:17
 WORKDIR /app
 COPY --from=build /app/service/service-test/service-prod/target/service-prod-1.0-SNAPSHOT.jar app.jar
+COPY --from=build /app/service/service-test/service-prod/target/* .
 
 CMD ["java", "-jar", "app.jar"]

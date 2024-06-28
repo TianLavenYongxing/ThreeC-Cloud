@@ -4,13 +4,12 @@
     <parent>
         <groupId>com.threec</groupId>
         <artifactId>threec</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>service</artifactId>
     <packaging>pom</packaging>
 
-    <name>${project.artifactId}</name>
     <modules>
         <module>service-auth</module>
         <module>service-test</module>
@@ -24,7 +23,6 @@
     </properties>
 
     <dependencies>
-
     </dependencies>
 
 </project>
