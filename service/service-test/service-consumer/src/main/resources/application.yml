@@ -7,6 +7,6 @@ spring:
     name: consumer-service
   cloud:
     nacos:
-      server-addr: localhost:30101
+      server-addr: nacos-server.nacos.svc.cluster.local
       username: nacos
       password: nacos
