@@ -47,7 +47,8 @@ metadata:
     app: mysql
 type: Opaque
 data:
-  password: TVNTdGFyRm9yZXZlciowMA== # echo -n "MSStarForever*00" | base64   echo "TVNTdDAw" | base64 -D
+  # echo -n "MSStarForever*00" | base64   echo "TVNTdDAw" | base64 -D
+  password: TVNTdGFyRm9yZXZlciowMA==
 ---
 # StatefulSet
 apiVersion: apps/v1
@@ -70,7 +71,8 @@ spec:
     spec:
       initContainers:
         - name: init-mysql
-          image: eclipse/mysql
+          image: eclipse/mysql:latest
+          imagePullPolicy: IfNotPresent
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -97,7 +99,8 @@ spec:
             - name: config-map
               mountPath: /mnt/config-map
         - name: clone-mysql
-          image: yizhiyong/xtrabackup
+          image: yizhiyong/xtrabackup:latest
+          imagePullPolicy: IfNotPresent
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -123,7 +126,8 @@ spec:
               mountPath: /etc/mysql/conf.d
       containers:
         - name: mysql
-          image: eclipse/mysql
+          image: eclipse/mysql:latest
+          imagePullPolicy: IfNotPresent
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -156,7 +160,8 @@ spec:
             periodSeconds: 2
             timeoutSeconds: 1
         - name: xtrabackup
-          image: yizhiyong/xtrabackup
+          image: yizhiyong/xtrabackup:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - name: xtrabackup
               containerPort: 3307
