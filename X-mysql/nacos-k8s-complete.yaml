@@ -25,12 +25,12 @@ metadata:
   labels:
     app: nacos-server
 spec:
-  type: NodePort
+  clusterIP: None  # 将 clusterIP 设置为 None 以创建无头服务
+  type: ClusterIP  # 将类型改为 ClusterIP，因为无头服务不支持 NodePort 类型
   ports:
     - port: 8848
       name: server
       targetPort: 8848
-      nodePort: 30101
     - port: 9848
       name: client-rpc
       targetPort: 9848
